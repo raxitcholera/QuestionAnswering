@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<title>Question Ansering</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" context="width=device-width, initial-scale-1" />
+	<style>  
+		  div.padded {  
+		  padding-top: 200px;  
+		  padding-right: 0px;  
+		  padding-bottom: 0.25in;  
+		  padding-left: 5em;  
+		} 
+		.modal {
+			display:     none;
+			position:   fixed;
+			z-index:    1000;
+			top:        0;
+			left:       0;
+			height:     100%;
+			width:      100%;
+			background: rgba( 255, 255, 255, .8 ) 
+						url('http://i.stack.imgur.com/FhHRx.gif') 
+						50% 50% 
+						no-repeat;
+		}		
+	</style>
+	<!--
+	<link rel="stylesheet" href="css/jquery.mobile-1.2.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	-->
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	</head>
+	<body align="center">
+	<div data-role="page">
+		<div class="padded">
+			<form name="input" action="test.php" id="searchForm">
+				<div data-role="header">
+					<img src ="header.jpg" /><br/>
+					<input type="text" name="uQuestion" style="width:600px;height:35px" /><br/><br/>
+					<input type="submit" value="Search" style="width:100px" />
+				</div>
+			</form>
+		</div>
+	</div>
+	<div data-role="content">
+		<div id="result"></div>
+		<div id="loading_time" class="modal"></div>
+	</div>
+	<script type="text/javascript">
+	function showLoadingImage() {
+		document.getElementById("loading_time").style.display="block";
+	}
+	function hideLoadingImage() {
+		document.getElementById("loading_time").style.display="none";
+	}	
+	  /* attach a submit handler to the form */
+	  $("#searchForm").submit(function(event) {
+
+		/* stop form from submitting normally */
+		event.preventDefault(); 
+		$( "#result" ).empty();	
+		showLoadingImage();
+		/* get some values from elements on the page: */
+		var $form = $( this ),
+			term = $form.find( 'input[name="uQuestion"]' ).val(),
+			url = $form.attr( 'action' );
+
+		/* Send the data using post and put the results in a div */
+		$.post( url, { uQuestion: term },
+		  function( data ) {
+			$( "#result" ).empty().append( data );
+			hideLoadingImage();
+		  }
+		);
+	  });
+	</script>
+
+</body>
+</html>
